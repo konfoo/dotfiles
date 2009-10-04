@@ -1,1 +1,39 @@
-/Users/yusuke/.screenrc
+## screen起動中は環境変数セット
+setenv SCREEN true
+
+## デフォルトシェル
+shell /opt/local/bin/zsh
+
+## エスケープキーバインド変更
+escape t
+
+## ビジュアルベルを無効
+vbell off
+
+## ステータス行の設定
+#caption always "%{=u dd} %-w%{+s}[%n %t]%{-s}%+w"
+hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+
+## スタートアップ時メッセージ無効
+startup_message off
+
+## 自動でデタッチする
+autodetach on
+
+## 文字コードにUTF-8を使う
+defutf8 on
+defkanji utf-8
+defencoding utf-8
+encoding utf-8 utf-8
+
+## スクロール行
+defscrollback 100000
+
+## ウィンドウサイズが変わるのを抑制
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+## 256色設定
+defbce "on"
+attrcolor b ".I"
+term rxvt-256color
+#termcapinfo rxvt-unicode* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'

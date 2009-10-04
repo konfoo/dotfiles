@@ -1,1 +1,8 @@
-/Users/yusuke/.zshrc
+ZSHDIR=$HOME/.zsh
+
+if [ -d $ZSHDIR ]; then
+  for ZSHFILE in `ls -1 $ZSHDIR/*.zsh`; do
+    source $ZSHFILE
+  done
+fi
+

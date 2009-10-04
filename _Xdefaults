@@ -1,0 +1,38 @@
+URxvt.foreground: snow
+URxvt.background: black
+URxvt.color4: #5566FF
+URxvt.color12: #7799FF
+URxvt.color9: #FF3333
+URxvt.color11: #BBBB22
+URxvt.saveLines: 20000
+URxvt.inputMethod: uim
+URxvt.termName: rxvt-256color
+URxvt.scrollstyle: rxvt
+URxvt.scrollBar_right: true
+URxvt.geometry: 100x36
+URxvt.shading: 10
+URxvt.inheritPixmap: True
+
+URxvt.font:\
+    xft:Bitstream Vera Sans Mono:size=11:antialias=true, \
+    xft:M+2VM+IPAG circle:size=12:antialias=true, \
+    xft:Hiragino Maru Gothic Pro, \
+    xft:Monaco
+URxvt.boldFont:\
+    xft:Bitstream Vera Sans Mono:bold:antialias=true, \
+    xft:M+2VM+IPAG circle:bold:antialias=true, \
+    xft:Hiragino Maru Gothic Pro:bold, \
+    xft:Monaco:bold
+URxvt.italicFont:\
+    xft:Bitstream Vera Sans Mono:italic:antialias=true, \
+    xft:M+2VM+IPAG circle:italic:antialias=true, \
+    xft:Hiragino Maru Gothic Pro:italic, \
+    xft:Monaco:italic
+URxvt.boldItalicFont:\
+    xft:Bitstream Vera Sans Mono:bold:italic:antialias=true, \
+    xft:M+2VM+IPAG circle:bold:italic:antialias=true, \
+    xft:Hiragino Maru Gothic Pro:bold:italic, \
+    xft:Monaco:italic
+
+Xft*antialias: true
+
