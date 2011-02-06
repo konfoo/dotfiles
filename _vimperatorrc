@@ -1,12 +1,12 @@
 """"""" options """""""
 " デフォルト検索エンジン
-set defsearch=gj
-set guioptions=br
+set defsearch=google
+set guioptions=mTbr
 " Exコマンドと検索パターン履歴の記録数
 set history=1000
 set verbose=9
 " 常にタブを表示
-set showtabline=2
+"set showtabline=2
 " :[tab]open コマンドで補完する候補と順番
 set complete=sl
 " サイズ指定のポップアップは新規ウィンドウで開く
@@ -18,50 +18,72 @@ set newtab=help,prefs,addons
 " input要素にfocusを奪われないようにする
 set focuscontent
 
-
 " ビープ音を鳴らさない
 set visualbell
 highlight Bell display:none
 
-""""""" keymaps """""""
-" scroll
-"noremap J <C-f>
-"noremap K <C-b>
-"noremap j <Down>
-""noremap k <Up>
+""""""" colors """""""
+colorscheme sweets_snaka
 
+
+""""""" quick marks """""""
+silent qmark r http://www.google.com/reader
+
+""""""" keymaps """""""
 " select, copy, cut & paste
-noremap <C-c> <C-v><C-c>
-noremap <C-x> <C-v><C-x>
-noremap <C-v> <C-v><C-v>
+"inoremap <C-a> <C-v><C-a>
+inoremap <C-z> <C-v><C-z>
+inoremap <C-x> <C-v><C-x>
+inoremap <C-c> <C-v><C-c>
+inoremap <C-v> <C-v><C-v>
+cnoremap <C-a> <C-v><C-a>
+cnoremap <C-z> <C-v><C-z>
+cnoremap <C-x> <C-v><C-x>
+cnoremap <C-c> <C-v><C-c>
+cnoremap <C-v> <C-v><C-v>
+nnoremap <C-a> <C-v><C-a>
+nnoremap <C-z> <C-v><C-z>
+nnoremap <C-x> <C-v><C-x>
+nnoremap <C-c> <C-v><C-c>
+nnoremap <C-v> <C-v><C-v>
 
 " quick search
-map o :open<Space>
-map e :eijiro<Space>
-map T :tabopen<Space>tw<Space>
-map s :tabopen<Space>tw#<Space>
+map e :mr alc<Space>
 
 " .vimperatorrcを再読み込み(:restartしなくてもいい)
 map ,s :so ~/.vimperatorrc<CR>
 
+" Tree Style Tab + Focus Last Selected Tab の組み合わせで
+" タブクローズ時に直前に選択していたタブにちゃんと戻るようにする
+nnoremap d <M-w>
+
 " bookmarklet
-map ,h :bmlhatebu<CR>
+"map ,h :bmlhatebu<CR>
 
 """""""" plugins """"""""
 " ime_controller.js
 let g:ex_ime_mode = "inactive"
 let g:textarea_ime_mode = "active"
 
+" char-hints-mod2.js
+let g:hintsio="i"
+
+" feedSomeKeys_3.js
+"lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
+"lazy fmaps -u='mail\.google\.com/mail' c n p o u x s r a ? gi gs gt gd ga gc I
+"lazy fmaps -u='mail\.google\.com/mail' -p=<Leader> d,# s,! e
+"lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c j,n k,p n,j p,k o u x s r a ? gi gs gt gd ga gc
+"lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' -p=<Leader> d,# s,! e
+fmaps -u='https?://www\.google\.com/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+"lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z < > e,g
+"lazy fmaps -u='(fastladder|livedoor)\.com/reader' -p=<Leader><Leader> q w
+"lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
+"lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
+"lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c ? G,g S,s Y,y M,m <Del>
+"lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' -p=<Leader> 1 2 3 4 f t h l d r
+
 " migemo_hint.js  ""ヒントでMigemo検索可能に
-set hintmatching=custom
-
-" twitter.js
-map ,t :twitter<Space>
-map ,T :twitter!<Space>
-map ,@ :twitter!@<CR>
-
-" waditter.js
-map ,w :waditter<CR>
+"set hintmatching=custom
 
 " direct_bookmark.js
 "let g:direct_sbm_use_services_by_tag = "d"
@@ -69,13 +91,13 @@ map ,w :waditter<CR>
 "let g:direct_sbm_is_use_migemo = "true"
 
 " ldrize_cooperation.js
-let g:ldrc_captureMappings = "['j','k','p','o','?']"
-let g:ldrc_hits = "true"
-let g:ldrc_intelligence_bind = "true"
+"let g:ldrc_captureMappings = "['j','k','p','o','?']"
+"let g:ldrc_hits = "true"
+"let g:ldrc_intelligence_bind = "true"
 "let g:ldrc_skip = "0.15"
 
 " _smooziee.js
-let g:smooziee_scroll_amount = "50"
+let g:smooziee_scroll_amount = "70"
 let g:smooziee_scroll_interval = "30" 
 js <<EOM
 mappings.addUserMap([modes.NORMAL], ["J"], "Page Down",
@@ -86,8 +108,8 @@ mappings.addUserMap([modes.NORMAL], ["K"], "Page Up",
   );
 EOM
 
-
 " multi_requester.js
+let g:multi_requester_default_sites = "alc"
 
 """""""" websites """"""""
 " gmail
