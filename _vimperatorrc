@@ -1,33 +1,61 @@
+""""""" colors """""""
+colorscheme sweets_snaka
+
 """"""" options """""""
+" デフォルトウィンドウタイトルを変更する
+set titlestring='Firefox with Vimperator3'
 " デフォルト検索エンジン
 set defsearch=google
-set guioptions=mTbr
+" メニューバー、ツールバー、右と下のスクロールを表示する
+set gui=addons,nobookmarks,nomenu,navigation,tabs
 " Exコマンドと検索パターン履歴の記録数
 set history=1000
 set verbose=9
 " 常にタブを表示
 "set showtabline=2
-" :[tab]open コマンドで補完する候補と順番
+" :[tab]open で補完候補の優先順位。Search engine > Location bar
 set complete=sl
+" 検索時に大文字と小文字区別なし
+set ignorecase
 " サイズ指定のポップアップは新規ウィンドウで開く
-set popups=2
+set popups=tab,resized
 " ステータスバーにリンク先表示
 set showstatuslinks=2
 " ヘルプ等を別タブで開く
 set newtab=help,prefs,addons
 " input要素にfocusを奪われないようにする
 set focuscontent
-
+" 候補アイテム数
+set maxitems=10
 " ビープ音を鳴らさない
 set visualbell
 highlight Bell display:none
+" ヒント文字列の指定
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
+" ヒント文字列表示を大文字化
+hi -append Hint text-transform: uppercase;
 
-""""""" colors """""""
-colorscheme sweets_snaka
-
+""""""" about:config """""""
+" ポップアップ許可数を拡張
+set! dom.popup_maximum=200
+" JavaScriptでのウィンドウ移動・リサイズ拒否
+set! dom.disable_window_move_resize=true
+" JavaScriptのステータスバー操作を無効化
+set! dom.event.contextmenu.enabled=false
+" アドオンインストール時の待ち時間カット
+set! security.dialog_enable_delay=0
+" ダウンロード履歴をFirefox終了時に削除
+set! browser.download.manager.retention=1
 
 """"""" quick marks """""""
-silent qmark r http://www.google.com/reader
+" qmark追加キー無効化
+noremap M <Nop>
+" サイト一覧
+silent qmark r https://www.feedly.com/
+silent qmark f https://www.facebook.com/
+silent qmark m https://www.gmail.com/
+silent qmark y http://www.yahoo.co.jp/
+silent qmark l https://login.yahoo.co.jp/
 
 """"""" keymaps """""""
 " select, copy, cut & paste
@@ -47,58 +75,55 @@ nnoremap <C-x> <C-v><C-x>
 nnoremap <C-c> <C-v><C-c>
 nnoremap <C-v> <C-v><C-v>
 
+" URL貼り付け無効化
+noremap p <NOP>
+noremap P <NOP>
 " quick search
-map e :mr alc<Space>
-
+map m :mr<Space>
 " .vimperatorrcを再読み込み(:restartしなくてもいい)
 map ,s :so ~/.vimperatorrc<CR>
-
-" Tree Style Tab + Focus Last Selected Tab の組み合わせで
-" タブクローズ時に直前に選択していたタブにちゃんと戻るようにする
+" open chaika
+map ,c :sidebar chaika<CR>
+" Tree Style Tab + Focus Last Selected Tab の組み合わせでtabclose時に直前に選択していたタブにちゃんと戻るようにする
 nnoremap d <M-w>
 
 " bookmarklet
 "map ,h :bmlhatebu<CR>
 
 """""""" plugins """"""""
+" plugin_loader.js
+let g:plugin_loader_roots = "~/SkyDrive/Github/vimperator-plugins"
+let g:plugin_loader_plugins = "_libly,_smooziee,appendAnchor,auto-focus-frame,feedSomeKeys_3,gmperator,ime_controller,migemo-find,migemo_completion,multi_requester,nextlink,slideshare,twittperator"
+
 " ime_controller.js
 let g:ex_ime_mode = "inactive"
-let g:textarea_ime_mode = "active"
-
-" char-hints-mod2.js
-let g:hintsio="i"
+let g:textarea_ime_mode = "inactive"
 
 " feedSomeKeys_3.js
-"lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
-"lazy fmaps -u='mail\.google\.com/mail' c n p o u x s r a ? gi gs gt gd ga gc I
-"lazy fmaps -u='mail\.google\.com/mail' -p=<Leader> d,# s,! e
-"lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c j,n k,p n,j p,k o u x s r a ? gi gs gt gd ga gc
-"lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' -p=<Leader> d,# s,! e
-fmaps -u='https?://www\.google\.com/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-"lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z < > e,g
-"lazy fmaps -u='(fastladder|livedoor)\.com/reader' -p=<Leader><Leader> q w
-"lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-"lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
-"lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c ? G,g S,s Y,y M,m <Del>
-"lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' -p=<Leader> 1 2 3 4 f t h l d r
+"autocmd VimperatorEnter .* <args> を lazy コマンドとして登録
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+"greader
+lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeyup z
+"feedly
+"lazy fmaps -u='www\.feedly\.com/home' -events=vkeypress j k n p o m s v e t d c S D V gh ga gg gm ge gk gc gd gp gl gn gb gf gs gt gu / r ? 
+lazy fmaps -u='www\.feedly\.com' g h m a e t c d p l s n b n p o v V m s S D e t d c / r ? 1 2 3 4 5 6 7 8 9 <Enter>
+"gmail
+"lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc `
+lazy fmaps -u='^https?:mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='^https?:mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+"google
+"lazy fmaps -e=vkeydown -u='^https://www\.google\.(co\.jp|com)/search\?q=' j k 
 
-" migemo_hint.js  ""ヒントでMigemo検索可能に
-"set hintmatching=custom
-
-" direct_bookmark.js
-"let g:direct_sbm_use_services_by_tag = "d"
-"let g:direct_sbm_use_services_by_post = "d"
-"let g:direct_sbm_is_use_migemo = "true"
-
-" ldrize_cooperation.js
-"let g:ldrc_captureMappings = "['j','k','p','o','?']"
-"let g:ldrc_hits = "true"
-"let g:ldrc_intelligence_bind = "true"
-"let g:ldrc_skip = "0.15"
+" twittperator.js
+"HTTPS必須にしないと動かない
+let g:twittperator_use_ssl_connection_for_api_ep = 1
+"streaming API
+let g:twittperator_use_chirp = 1
 
 " _smooziee.js
-let g:smooziee_scroll_amount = "70"
-let g:smooziee_scroll_interval = "30" 
+let g:smooziee_scroll_amount = "80"
+let g:smooziee_scroll_interval = "20" 
 js <<EOM
 mappings.addUserMap([modes.NORMAL], ["J"], "Page Down",
   function() plugins.smooziee.smoothScrollBy(content.innerHeight - 40)
@@ -106,23 +131,21 @@ mappings.addUserMap([modes.NORMAL], ["J"], "Page Down",
 mappings.addUserMap([modes.NORMAL], ["K"], "Page Up",
   function() plugins.smooziee.smoothScrollBy((content.innerHeight - 40)*-1)
   );
+mappings.addUserMap([modes.NORMAL], ["<C-d>"], "Page Down",
+  function() plugins.smooziee.smoothScrollBy(content.innerHeight - 40)
+  );
+mappings.addUserMap([modes.NORMAL], ["<C-u>"], "Page Up",
+  function() plugins.smooziee.smoothScrollBy((content.innerHeight - 40)*-1)
+  );
 EOM
 
 " multi_requester.js
 let g:multi_requester_default_sites = "alc"
 
-"""""""" websites """"""""
-" gmail
-autocmd LocationChange .* :fmapc
-autocmd LocationChange 'mail\.google\.com/mail' :fmap -depth 4 c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
-" google reader
-autocmd LocationChange .* js modes.passAllKeys = false
-autocmd LocationChange www\\.google\\.(co\\.jp|com)/reader js modes.passAllKeys = true
-" hatena bookmark
-autocmd LocationChange .* :fmapc
-autocmd LocationChange ^http://b\.hatena\.ne\.jp/konfoo :fmap j k o e b
-
 """""""" others """"""""
+autocmd LocationChange .* js modes.passAllKeys = /mail\.google\.com|feedly\.com/.test(buffer.URL)
+" ex mode時IMEをOFF
+style -name commandline-ime chrome://* #liberator-commandline-command input { ime-mode: inactive; }
 " 読み込んだ事を出力
 echo ".vimperatorrc sourced"
 
