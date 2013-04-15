@@ -17,6 +17,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'karakaram/vim-quickrun-phpunit'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'superbrothers/vim-vimperator'
 filetype plugin indent on
 filetype indent on
 
