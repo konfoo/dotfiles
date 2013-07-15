@@ -3,7 +3,7 @@ colorscheme sweets_snaka
 
 """"""" options """""""
 " デフォルトウィンドウタイトルを変更する
-set titlestring='Firefox with Vimperator3'
+set titlestring='Firefox with Vimperator'
 " デフォルト検索エンジン
 set defsearch=google
 " メニューバー、ツールバー、右と下のスクロールを表示する
@@ -52,7 +52,6 @@ set! browser.download.manager.retention=1
 noremap M <Nop>
 " サイト一覧
 silent qmark r https://www.feedly.com/
-silent qmark f https://www.facebook.com/
 silent qmark m https://www.gmail.com/
 silent qmark y http://www.yahoo.co.jp/
 silent qmark l https://login.yahoo.co.jp/
@@ -78,8 +77,8 @@ nnoremap <C-v> <C-v><C-v>
 " URL貼り付け無効化
 noremap p <NOP>
 noremap P <NOP>
-" quick search
-map m :mr<Space>
+" quick English search
+map e :mr<Space>alc<Space>
 " .vimperatorrcを再読み込み(:restartしなくてもいい)
 map ,s :so ~/.vimperatorrc<CR>
 " open chaika
@@ -93,7 +92,7 @@ nnoremap d <M-w>
 """""""" plugins """"""""
 " plugin_loader.js
 let g:plugin_loader_roots = "~/SkyDrive/Github/vimperator-plugins"
-let g:plugin_loader_plugins = "_libly,_smooziee,appendAnchor,auto-focus-frame,feedSomeKeys_3,gmperator,ime_controller,migemo-find,migemo_completion,multi_requester,nextlink,slideshare,twittperator"
+let g:plugin_loader_plugins = "_libly,_smooziee,appendAnchor,auto-focus-frame,feedSomeKeys_3,gmperator,ime_controller,maine_coon,migemo-find,migemo_completion,multi_requester,nextlink,slideshare,twittperator"
 
 " ime_controller.js
 let g:ex_ime_mode = "inactive"
@@ -106,20 +105,22 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
 lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeyup z
 "feedly
-"lazy fmaps -u='www\.feedly\.com/home' -events=vkeypress j k n p o m s v e t d c S D V gh ga gg gm ge gk gc gd gp gl gn gb gf gs gt gu / r ? 
 lazy fmaps -u='www\.feedly\.com' g h m a e t c d p l s n b n p o v V m s S D e t d c / r ? 1 2 3 4 5 6 7 8 9 <Enter>
 "gmail
-"lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc `
 lazy fmaps -u='^https?:mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='^https?:mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 "google
 "lazy fmaps -e=vkeydown -u='^https://www\.google\.(co\.jp|com)/search\?q=' j k 
+" Twitter
+lazy fmaps -u='^http://twitter\.com/' <Space> . j k ?
+lazy fmaps -u='^http://twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
+ 
 
 " twittperator.js
 "HTTPS必須にしないと動かない
 let g:twittperator_use_ssl_connection_for_api_ep = 1
 "streaming API
-let g:twittperator_use_chirp = 1
+"let g:twittperator_use_chirp = 1
 
 " _smooziee.js
 let g:smooziee_scroll_amount = "80"
