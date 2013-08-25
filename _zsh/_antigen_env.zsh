@@ -5,6 +5,6 @@ antigen bundle git
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # theme
-antigen theme candy
+antigen theme dogenpunk
 
 antigen apply
