@@ -1,0 +1,6 @@
+[user]
+	name = konfoo
+	email = ysk.kondo@gmail.com
+
+[core]
+    excludesfile = ~/.gitignore
