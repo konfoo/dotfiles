@@ -6,14 +6,14 @@ if has('vim_starting')
     call neobundle#rc(expand('~/.vim/bundle'))
 endif
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/vimproc', {'build':{'mac':'make -f make_mac.mak', 'unix':'make -f make_unix.mak' }}
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 NeoBundle 'karakaram/vim-quickrun-phpunit'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
@@ -21,7 +21,7 @@ NeoBundle 'othree/eregex.vim'
 NeoBundle 'kana/vim-surround'
 NeoBundle 'superbrothers/vim-vimperator'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'migemo', {'type' : 'nosync', 'base' : '~/.vim/bundle/manual'}
 filetype plugin indent on
 filetype indent on
@@ -30,45 +30,59 @@ NeoBundleCheck
 "" <LEADER>の設定
 let mapleader=','
 
-"" neocomplecache
-set completeopt=menuone "補完候補が１つだけでも表示
-let g:neocomplcache_enable_at_startup=1
-let g:neocomplcache_enable_smart_case=1 " 大文字が入力されるまで大文字小文字の区別を無視
-let g:neocomplcache_enable_underbar_completion=1 " スネークケースの補完を有効化
-let g:neocomplcache_enable_camel_case_completion=1 " キャメルケースの補完を有効化
-let g:neocomplcache_max_list=20 " ポップアップメニューで表示される候補の数
-let g:neocomplcache_min_syntax_length=3 " シンタックスをキャッシュするときの最小文字長
-inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
-" Enter/Deleteキーで補完ウィンドウを閉じる
-function! s:my_cr_func()
-    return pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
-endfunction 
-inoremap <silent> <CR> <C-R>=<SID>my_cr_func()<CR>
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : '',
-    \ 'php' : $HOME . '/.vim/dict/php.dict',
+"" display & color settings
+syn on
+set visualbell t_vb= "no beeps
+set t_Co=256 "256色表示
+"set list "タブと行末を表示
+set cmdheight=2
+colo Tomorrow-Night
+
+"" vim-airline
+let g:airline_powerline_fonts = 1
+
+"" neocomplete
+"use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+\ 'default' : '',
+\ 'vimshell' : $HOME.'/.vimshell_hist',
+\ 'php' : $HOME.'/.vim/dict/php.dict'
 \ }
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 " Plugin key-mappings.
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-"let g:neocomplcache_keyword_patterns['default'] = '\h\w*' "日本語補完を無効化
-
+inoremap <expr><C-g>  neocomplete#undo_completion()
+inoremap <expr><C-l>  neocomplete#complete_common_string()
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
 
 "" syntastic
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 
-"" vim-airline
-let g:airline_powerline_fonts = 1
+"" migemo
+noremap  // :<C-u>Migemo<CR>
 
 "" tab width setting
 "" et:TabをSpace展開 sw:行頭Tab幅 ts:行頭以外Tab幅 sts:expandtabで1Tab辺りのSpace数
@@ -100,7 +114,7 @@ nnoremap <S-tab> :tabprev<cr>
 "" backup & history
 set nobackup
 set browsedir=buffer    "ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
-set directory=~/.vim/backup "スワップファイルディレクトリを指定する
+set directory=$HOME/.vim/backup "スワップファイルディレクトリを指定する
 set history=1000    "履歴保存数
 
 "" other
@@ -109,6 +123,7 @@ set laststatus=2
 set smartindent
 
 "" search
+" /
 set ignorecase
 set incsearch
 set smartcase
@@ -119,14 +134,39 @@ noremap # #zz
 noremap g* g*zz
 noremap g# g#zz
 
-"" display
-" colorscheme
-colo solarized
+" grep
+" ag -> ack -> grep の順に優先して使用
+if executable('ag')
+    set grepprg=ag\ --nogroup\ -iS
+    set grepformat=%f:%l:%m
+else
+    set grepprg=grep\ -Hnd\ skip\ -r
+    set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m
+endif
 
-syn on
-set visualbell t_vb= "no beeps
-set t_Co=256 "256色表示
-"set list "タブと行末を表示
-set cmdheight=2
-"set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']['.&ft.']'}\ %F%=%l,%c%V%8P
+" 拡張子指定grep
+command! -bang -nargs=+ -complete=file Grep call s:Grep(<bang>0, <f-args>)
+function! s:Grep(bang, pattern, directory, ...)
+    let grepcmd = []
+    call add(grepcmd, 'grep' . (a:bang ? '!' : ''))
+    if executable('ag')
+        if a:0 && a:1 != ''
+            call add(grepcmd, '-G "\.' . a:1 . '$"')
+        else
+            call add(grepcmd, '-a')
+        endif
+    else
+        if a:0 && a:1 != ''
+            call add(grepcmd, '--include="*.' . a:1 . '"')
+        endif
+    endif
+    call add(grepcmd, a:pattern)
+    call add(grepcmd, a:directory)
+    execute join(grepcmd, ' ')
+endfunction
+
+" grep + auto quickfix
+autocmd QuickFixCmdPost *grep* cwindow
+
+
 
