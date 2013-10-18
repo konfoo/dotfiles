@@ -5,14 +5,13 @@ export EDITOR=vim
 cdpath=(.. ~)
 bindkey -e
 
-# z.sh alias
-if which brew > /dev/null; then
-    _Z_CMD=j
-    source $(brew --prefix)/etc/profile.d/z.sh
-fi
-
 # pbcopyで日本語(UTF-8)がコピーできるようになる
 export __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:14
 
 # python interpreter setting
 export PYTHONSTARTUP=$HOME/.pythonrc.py
+
+# macvimをterminalから使えるように
+if [[ "$OSTYPE" =~ "darwin*" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
+    export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
+fi
