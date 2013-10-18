@@ -115,6 +115,10 @@ lazy fmaps -u='^https?:mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k
 lazy fmaps -u='^http://twitter\.com/' <Space> . j k ?
 lazy fmaps -u='^http://twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
  
+"" slideshare.js
+"
+nnoremap -urls=www\\.slideshare\\.net l :slideshare next<CR>
+nnoremap -urls=www\\.slideshare\\.net h :slideshare prev<CR>
 
 " twittperator.js
 "HTTPS必須にしないと動かない
@@ -140,7 +144,7 @@ mappings.addUserMap([modes.NORMAL], ["<C-u>"], "Page Up",
   );
 EOM
 
-" multi_requester.js
+"" multi_requester.js
 let g:multi_requester_default_sites = "alc"
 
 """""""" others """"""""
