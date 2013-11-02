@@ -1,0 +1,83 @@
+" ==VimperatorColorSchema==
+" name: Sweets transparent. (Based on 'sweets_snaka')
+" ==/VimperatorColorSchema==
+
+hi Hint font-family: "Lucida Grande", "Segoe UI", sans-serif; font-size: 11px; font-weight: bold; background: -moz-linear-gradient(top, #6BA7EF, #3163AA); text-shadow: 0 1px #1D3C66; text-transform: uppercase; color: white; background-color: red; padding: 2px 5px; border-radius: 3px; border: 1px solid #3366AD;
+hi HintElem color: black; background-color: #fffac6; border:1px; "-moz-border-radius: 3px;
+hi HintActive color: black; background-color: #ffdcdc; border: 1px #ef6f6f dotted;" -moz-border-radius: 3px;
+
+hi StatusLine     color:  CornflowerBlue; background: rbga(0,0,0,0.9); font-weight: normal; font-size: 12pt;
+hi StatusLineBroken   color:  black; background: #ffa0a0; font-weight: normal; font-size: 12pt;
+hi StatusLineExtended color:  black; background: #a0ffa0; font-weight: normal; font-size: 12pt;
+hi StatusLineSecure   color:  black; background: #a0a0ff; font-weight: normal; font-size: 12pt;
+
+hi Normal       color: LightYellow; background: rgba(51,51,51,0.8); font-size: 10pt;
+hi CmdLine    color:  LightYellow;  background: #333; font-size: 14pt;
+hi InfoMsg    color:  LightYellow;  background: #333; font-size: 10pt;
+hi ModeMsg      color: LightYellow; background: rgba(51,51,51,0.8); font-size: 10pt;
+hi MoreMsg    color:  LimeGreen; background: #333;
+hi LineNr   color:  DeepPink; background: #333; font-size: 10pt;
+hi Question   color: Yellow;  background:#333;  font-size: 10pt;
+hi WarningMsg   color: DeepPink;  background:#333;  font-size: 10pt;
+hi ErrorMsg   color: white;  background: red;  font-size: 10pt;
+hi NonText    background: #333;
+hi Null     color: CornflowerBlue;
+hi Tag      color: CornflowerBlue;
+
+hi CompTitle     color:  magenta; background: rbga(22,22,22,0.9); font-weight: bold;
+hi CompTitle>* color: lightpink; border-bottom: 1px solid gray; padding: 1px 0.5ex; text-shadow: none;
+hi CompItem[selected]  color: DeepPink;  background: rgba(0,0,0,0.8);
+hi CompDesc   color: Pink;
+
+hi Title    color:  white;
+hi Indicator color:  DodgerBlue; font-size: 10pt;
+hi String   color:  Orchid;
+hi Number   color:  Orchid;
+hi Object   color: Khaki;
+hi Function   color:  SkyBlue;
+hi URL    color:  LightGreen;
+
+hi TabNumber  color: white; font-weight: bold; font-size:10pt;
+
+style -name tab chrome://* <<EOM
+#content { background-color: #ddd !important;} /* tabbar */
+.tabs-alltabs-button { padding: 0 !important; }
+.tabs-container { height: 20px; border-bottom: 1px solid #000; }
+.tabs-container > stack { display:none; } /* remove tab selection menu */
+.tabbrowser-tab {
+  z-index:0 !important; 
+  -moz-apperance: none !important;
+/*  margin: 0 !important;*/
+  padding: 0 !important;
+  -moz-border-radius-topleft: 8 !important;
+  -moz-border-radius-topright: 0 !important;
+  -moz-border-radius-bottomright: 0 !important;
+  -moz-border-radius-bottomleft: 8 !important;
+  border: none !important;
+  background-image:none !important;
+/*  background-color: #ff69b4; !important;*/
+}
+.tabbrowser-tab[selected=false] { background: #ddd !important; }
+.tabbrowser-tab[selected=true] > .tab-text { color: #ddd !important; }
+.tabbrowser-strip { background: #333 !important; }
+/* remove close button */
+.tab-close-button {
+  display: none;
+}
+/* splitter */
+.treestyletab-splitter {
+  width: 0 !important;
+}
+.treestyletab-splitter grippy {
+  display: none !important;
+}
+/* set unread tabs style */
+#content tab:not([selected]) {
+background-color: #333 !important; color:CornflowerBlue  !important;
+}
+EOM
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 0 1px !important; }
+  statusbarpanel > * { margin: 0 !important; padding: 0 !important; }
+EOM
