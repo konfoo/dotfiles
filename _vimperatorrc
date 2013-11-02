@@ -1,5 +1,5 @@
 """"""" colors """""""
-colorscheme sweets_snaka
+colorscheme sweets_transparent
 
 """"""" options """""""
 " デフォルトウィンドウタイトルを変更する
@@ -11,10 +11,12 @@ set gui=addons,nobookmarks,nomenu,navigation,tabs
 " Exコマンドと検索パターン履歴の記録数
 set history=1000
 set verbose=9
+" SSLアイコンをステータス領域に表示
+set status+=ssl
 " 常にタブを表示
 "set showtabline=2
-" :[tab]open で補完候補の優先順位。Search engine > Location bar
-set complete=sl
+" :[tab]open で補完候補の優先順位。Search engine > Location bar > google Suggest
+set complete=slS
 " 検索時に大文字と小文字区別なし
 set ignorecase
 " サイズ指定のポップアップは新規ウィンドウで開く
@@ -34,6 +36,11 @@ highlight Bell display:none
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 " ヒント文字列表示を大文字化
 hi -append Hint text-transform: uppercase;
+" ex mode時IMEをOFF
+style -name commandline-ime chrome://* #liberator-commandline-command input { ime-mode: inactive; }
+" ページ送りパターン
+set nextpattern=\bnext\b,\bmore\b,next,^次(の)?ページ,\b次.*,→\b,^>$,^(>>|≫)$,^(>|≫),(>|≫)$
+set previouspattern=\bprev|previous\b,prev,^前(の)?ページ,\b前.*,\b←,^<$,^(<<|≪)$,^(<|≪),(<|≪)$
 
 """"""" about:config """""""
 " ポップアップ許可数を拡張
@@ -81,8 +88,8 @@ noremap P <NOP>
 map e :mr<Space>alc<Space>
 " .vimperatorrcを再読み込み(:restartしなくてもいい)
 map ,s :so ~/.vimperatorrc<CR>
-" open chaika
-map ,c :sidebar chaika<CR>
+" restart
+map ,r :restart<CR>
 " Tree Style Tab + Focus Last Selected Tab の組み合わせでtabclose時に直前に選択していたタブにちゃんと戻るようにする
 nnoremap d <M-w>
 
@@ -90,9 +97,27 @@ nnoremap d <M-w>
 "map ,h :bmlhatebu<CR>
 
 """""""" plugins """"""""
+" vimppm.js
+source ~/.vimperator/vimppm/plugin/vimppm.js
+vimppm '_libly'
+vimppm '_smooziee'
+vimppm 'appendAnchor'
+vimppm 'auto-focus-frame'
+vimppm 'feedSomeKeys_3'
+vimppm 'gmperator'
+vimppm 'ime_controller'
+"vimppm 'maine_coon'
+vimppm 'migemo-find'
+vimppm 'migemo_completion'
+vimppm 'multi_requester'
+vimppm 'nextlink'
+vimppm 'slideshare'
+vimppm 'twittperator'
+vimppm 'caisui/vimperator'
+
 " plugin_loader.js
-let g:plugin_loader_roots = "~/SkyDrive/Github/vimperator-plugins"
-let g:plugin_loader_plugins = "_libly,_smooziee,appendAnchor,auto-focus-frame,feedSomeKeys_3,gmperator,ime_controller,maine_coon,migemo-find,migemo_completion,multi_requester,nextlink,slideshare,twittperator"
+"let g:plugin_loader_roots = "~/SkyDrive/Github/vimperator-plugins"
+"let g:plugin_loader_plugins = "_libly,_smooziee,appendAnchor,auto-focus-frame,feedSomeKeys_3,gmperator,ime_controller,maine_coon,migemo-find,migemo_completion,multi_requester,nextlink,slideshare,twittperator"
 
 " ime_controller.js
 let g:ex_ime_mode = "inactive"
@@ -116,7 +141,6 @@ lazy fmaps -u='^http://twitter\.com/' <Space> . j k ?
 lazy fmaps -u='^http://twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
  
 "" slideshare.js
-"
 nnoremap -urls=www\\.slideshare\\.net l :slideshare next<CR>
 nnoremap -urls=www\\.slideshare\\.net h :slideshare prev<CR>
 
@@ -149,8 +173,6 @@ let g:multi_requester_default_sites = "alc"
 
 """""""" others """"""""
 autocmd LocationChange .* js modes.passAllKeys = /mail\.google\.com|feedly\.com/.test(buffer.URL)
-" ex mode時IMEをOFF
-style -name commandline-ime chrome://* #liberator-commandline-command input { ime-mode: inactive; }
 " 読み込んだ事を出力
 echo ".vimperatorrc sourced"
 
