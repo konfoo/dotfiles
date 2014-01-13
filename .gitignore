@@ -1,0 +1,8 @@
+.DS_Store
+*~
+*.swp
+_vim/bundle/*
+!_vim/bundle/neobundle.vim
+!_vim/bundle/manual/*
+_vimperator/info/*
+!_vimperator/vimppm/plugin/*

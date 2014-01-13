@@ -13,33 +13,49 @@ NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'superbrothers/vim-quickrun-markdown-gfm'
 NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 NeoBundle 'karakaram/vim-quickrun-phpunit'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'othree/eregex.vim'
 NeoBundle 'kana/vim-surround'
+NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'superbrothers/vim-vimperator'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
+NeoBundle 'stephpy/vim-php-cs-fixer'
+NeoBundle 'veloce/vim-behat'
 NeoBundle 'migemo', {'type' : 'nosync', 'base' : '~/.vim/bundle/manual'}
+NeoBundle 'nacitar/terminalkeys.vim'
 filetype plugin indent on
 filetype indent on
 NeoBundleCheck
 
 "" <LEADER>の設定
 let mapleader=','
+noremap \ , 
 
 "" display & color settings
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+  set t_Co=256 "256色表示
+endif
+
 syn on
 set visualbell t_vb= "no beeps
-set t_Co=256 "256色表示
 "set list "タブと行末を表示
 set cmdheight=2
 colo Tomorrow-Night
 
 "" vim-airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
 
 "" neocomplete
 "use neocomplete.
@@ -77,9 +93,83 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 
+"" Unite
+let g:unite_enable_start_insert = 1
+let g:unite_split_rule = "botright"
+let g:unite_force_overwrite_statusline = 0
+let g:unite_winheight = 10
+
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+            \ 'ignore_pattern', join([
+            \ '\.git/',
+            \ ], '\|'))
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+nnoremap <C-P> :<C-u>Unite  -buffer-name=files   -start-insert buffer file_rec/async:!<cr>
+
+autocmd FileType unite call s:unite_settings()
+
+function! s:unite_settings()
+    let b:SuperTabDisabled=1
+    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+    imap <silent><buffer><expr> <C-x> unite#do_action('split')
+    imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+    imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+
+    nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction
+
+
+
+"" vimfiler
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+nnoremap <silent><leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+
+"" vimquickrun
+" <C-c> で実行を強制終了させる
+" quickrun.vim が実行していない場合には <C-c> を呼び出す
+nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : "\<C-c>"
+" runner/vimproc/updatetime で出力バッファの更新間隔をミリ秒で設定できます
+" updatetime が一時的に書き換えられてしまうので注意して下さい
+let g:quickrun_config = {
+\   "_" : {
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60,
+\       "outputter/buffer/split" : ":botright",
+\       "outputter/buffer/close_on_empty" : 1
+\   },
+\   'markdown': {
+\     'type': 'markdown/gfm',
+\     'outputter': 'browser'
+\   }
+\}
+
 "" syntastic
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_loc_list_height = 5
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+let g:syntastic_php_phpcs_post_args='--standard=psr2'
+
+"" php-cs-fixer
+let g:php_cs_fixer_path = "/usr/local/bin/php-cs-fixer"
+nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
+nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
+
+"" vim-behat
+let g:feature_filetype='behat'
+let g:behat_executables = ['~/SkyDrive/Github/Behat/bin/behat']
+
+"" vim-quickrun-markdown-gfm
+
 
 "" migemo
 noremap  // :<C-u>Migemo<CR>
@@ -110,9 +200,10 @@ inoremap <C-d> <Del>
 inoremap <C-k> <C-o>D
 nnoremap <tab> :tabnext<cr>
 nnoremap <S-tab> :tabprev<cr>
+nnoremap Q <Nop> "exモード無効化
 
 "" backup & history
-set nobackup
+set backupskip+=/private/tmp/* "macでcrontabエラーにならないようにする
 set browsedir=buffer    "ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
 set directory=$HOME/.vim/backup "スワップファイルディレクトリを指定する
 set history=1000    "履歴保存数
@@ -127,6 +218,7 @@ set smartindent
 set ignorecase
 set incsearch
 set smartcase
+set hlsearch
 noremap n nzz
 noremap N Nzz
 noremap * *zz
@@ -135,7 +227,7 @@ noremap g* g*zz
 noremap g# g#zz
 
 " grep
-" ag -> ack -> grep の順に優先して使用
+" ag > grep の順に優先して使用
 if executable('ag')
     set grepprg=ag\ --nogroup\ -iS
     set grepformat=%f:%l:%m
@@ -167,6 +259,4 @@ endfunction
 
 " grep + auto quickfix
 autocmd QuickFixCmdPost *grep* cwindow
-
-
 

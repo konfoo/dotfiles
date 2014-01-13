@@ -1,7 +1,6 @@
 # PATH
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
-export EDITOR=vim
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:$PATH
+export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:/usr/local/share/man:$MANPATH
 
 # zsh path
 cdpath=(.. ~)

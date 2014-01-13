@@ -5,7 +5,7 @@ colorscheme sweets_transparent
 " デフォルトウィンドウタイトルを変更する
 set titlestring='Firefox with Vimperator'
 " デフォルト検索エンジン
-set defsearch=google
+set defsearch=g
 " メニューバー、ツールバー、右と下のスクロールを表示する
 set gui=addons,nobookmarks,nomenu,navigation,tabs
 " Exコマンドと検索パターン履歴の記録数
@@ -86,7 +86,7 @@ noremap p <NOP>
 noremap P <NOP>
 " quick English search
 map e :mr<Space>alc<Space>
-" .vimperatorrcを再読み込み(:restartしなくてもいい)
+" .vimperatorrcを再読み込み
 map ,s :so ~/.vimperatorrc<CR>
 " restart
 map ,r :restart<CR>
@@ -106,14 +106,15 @@ vimppm 'auto-focus-frame'
 vimppm 'feedSomeKeys_3'
 vimppm 'gmperator'
 vimppm 'ime_controller'
-"vimppm 'maine_coon'
+"vimppm 'maine_coon' "有効にするとgoogle検索でhintが効かなくなる...
 vimppm 'migemo-find'
 vimppm 'migemo_completion'
 vimppm 'multi_requester'
 vimppm 'nextlink'
 vimppm 'slideshare'
+vimppm 'stella'
 vimppm 'twittperator'
-vimppm 'caisui/vimperator'
+"vimppm 'caisui/vimperator'
 
 " plugin_loader.js
 "let g:plugin_loader_roots = "~/SkyDrive/Github/vimperator-plugins"
@@ -123,23 +124,6 @@ vimppm 'caisui/vimperator'
 let g:ex_ime_mode = "inactive"
 let g:textarea_ime_mode = "inactive"
 
-" feedSomeKeys_3.js
-"autocmd VimperatorEnter .* <args> を lazy コマンドとして登録
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-"greader
-lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-lazy fmaps -u='www\.google\.(co\.jp|com)/reader' -events=vkeyup z
-"feedly
-lazy fmaps -u='www\.feedly\.com' g h m a e t c d p l s n b n p o v V m s S D e t d c / r ? 1 2 3 4 5 6 7 8 9 <Enter>
-"gmail
-lazy fmaps -u='^https?:mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
-lazy fmaps -u='^https?:mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-"google
-"lazy fmaps -e=vkeydown -u='^https://www\.google\.(co\.jp|com)/search\?q=' j k 
-" Twitter
-lazy fmaps -u='^http://twitter\.com/' <Space> . j k ?
-lazy fmaps -u='^http://twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
- 
 "" slideshare.js
 nnoremap -urls=www\\.slideshare\\.net l :slideshare next<CR>
 nnoremap -urls=www\\.slideshare\\.net h :slideshare prev<CR>
@@ -147,8 +131,6 @@ nnoremap -urls=www\\.slideshare\\.net h :slideshare prev<CR>
 " twittperator.js
 "HTTPS必須にしないと動かない
 let g:twittperator_use_ssl_connection_for_api_ep = 1
-"streaming API
-"let g:twittperator_use_chirp = 1
 
 " _smooziee.js
 let g:smooziee_scroll_amount = "80"
@@ -171,8 +153,24 @@ EOM
 "" multi_requester.js
 let g:multi_requester_default_sites = "alc"
 
-"""""""" others """"""""
-autocmd LocationChange .* js modes.passAllKeys = /mail\.google\.com|feedly\.com/.test(buffer.URL)
+" feedSomeKeys_3.js
+"autocmd VimperatorEnter .* <args> を lazy コマンドとして登録
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+"feedly
+lazy fmaps -u='www\.feedly\.com' g h m a e t c d p l s n b n p o v V m s S D e t d c / r ? 1 2 3 4 5 6 7 8 9 <Enter>
+"google
+lazy fmap -u='www\.google\.co.jp' -modes=i -e=keydown,keypress <C-p> <Up>
+lazy fmap -u='www\.google\.co.jp' -modes=i -e=keydown,keypress <C-n> <Down>
+" Twitter
+lazy fmaps -u='twitter\.com/' <Space> . ?
+lazy fmaps -u='twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
+
+"""""""" ignorekeys """"""""
+" $HOME/.vimperator/info/default/ignored-keys に設定がかかれて永続化するので一旦クリア
+ignorekeys clear
+ignorekeys add mail\\.google\\.com -except :,t,d,<M-w>,<C-n>,<C-p>,b
+ignorekeys add wri\\.pe -except :,t,<M-w>,b
+ 
 " 読み込んだ事を出力
 echo ".vimperatorrc sourced"
 

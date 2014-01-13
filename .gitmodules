@@ -1,3 +1,7 @@
 [submodule "_vim/bundle/neobundle.vim"]
 	path = _vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim.git
+[submodule "_vimperator/vimppm"]
+	path = _vimperator/vimppm
+	url = https://github.com/konfoo/vimppm.git
+    ignore = dirty

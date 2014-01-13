@@ -5,11 +5,14 @@ if brew list z > /dev/null 2>&1; then
 fi
 
 # command aliases
-alias vi="vim"
-alias zshload="source ~/.zshenv ~/.zshrc"
-[[ -s `which vimpage` ]] && export PAGER=vimpager
+alias zshload="source ~/.zshenv || source ~/.zshrc"
+export EDITOR=vi
+alias vi='vim'
+[[ -s `which Vim` ]] && alias vi='Vim'
+[[ -s `which vimpager` ]] && export PAGER=vimpager
 [[ -s `which tmux` ]] && alias tmux='tmux -2'
 [[ -s `which htop` ]] && alias top='htop'
+[[ -s `which ag` ]] && alias grep='ag'
 
 # global aliases
 alias -g H='| head'

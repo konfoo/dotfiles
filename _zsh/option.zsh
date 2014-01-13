@@ -20,7 +20,7 @@ setopt  share_history           #permit access history from other zsh session
 # completion
 setopt  auto_menu               #select next candidate with TAB key
 setopt  auto_param_slash
-setopt  complete_aliases        #show aliases in the list
+#setopt  complete_aliases        #show aliases in the list #z.shが動かないのでコメントアウト
 setopt  list_types
 setopt  list_packed             #show the list packed
 setopt  list_rows_first
