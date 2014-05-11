@@ -5,6 +5,6 @@ antigen bundle rvm
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # theme
-antigen theme bira
+antigen theme steeef
 
 antigen apply

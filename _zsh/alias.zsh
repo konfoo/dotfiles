@@ -13,6 +13,7 @@ alias vi='vim'
 [[ -s `which tmux` ]] && alias tmux='tmux -2'
 [[ -s `which htop` ]] && alias top='htop'
 [[ -s `which ag` ]] && alias grep='ag'
+[[ -e "$HOME/SkyDrive" ]] && alias todo="$EDITOR $HOME/SkyDrive/.todo.md"
 
 # global aliases
 alias -g H='| head'

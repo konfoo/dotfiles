@@ -15,8 +15,8 @@ set verbose=9
 set status+=ssl
 " 常にタブを表示
 "set showtabline=2
-" :[tab]open で補完候補の優先順位。Search engine > Location bar > google Suggest
-set complete=slS
+" :[tab]open で補完候補の優先順位。opened Tab > Search engine > Location bar > google Suggest
+set complete=tslS
 " 検索時に大文字と小文字区別なし
 set ignorecase
 " サイズ指定のポップアップは新規ウィンドウで開く
@@ -159,8 +159,8 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 "feedly
 lazy fmaps -u='www\.feedly\.com' g h m a e t c d p l s n b n p o v V m s S D e t d c / r ? 1 2 3 4 5 6 7 8 9 <Enter>
 "google
-lazy fmap -u='www\.google\.co.jp' -modes=i -e=keydown,keypress <C-p> <Up>
-lazy fmap -u='www\.google\.co.jp' -modes=i -e=keydown,keypress <C-n> <Down>
+lazy fmap -u='www\.google\.co\.jp' -modes=i -e=keydown,keypress <C-p> <Up>
+lazy fmap -u='www\.google\.co\.jp' -modes=i -e=keydown,keypress <C-n> <Down>
 " Twitter
 lazy fmaps -u='twitter\.com/' <Space> . ?
 lazy fmaps -u='twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
@@ -168,9 +168,14 @@ lazy fmaps -u='twitter\.com/' -events=vkeydown f r t n m gh gr gp gf gm
 """""""" ignorekeys """"""""
 " $HOME/.vimperator/info/default/ignored-keys に設定がかかれて永続化するので一旦クリア
 ignorekeys clear
+"ignorekeys add www\\.google\\.co\\.jp -except :,t,d,<M-w>,<C-n>,<C-p>,b
 ignorekeys add mail\\.google\\.com -except :,t,d,<M-w>,<C-n>,<C-p>,b
-ignorekeys add wri\\.pe -except :,t,<M-w>,b
+ignorekeys add wri\\.pe -except :,t,d,<M-w>,b
  
+"""""""" bookmarks """"""""
+silent bmark -title="twitter検索" -tags=keyword -keyword=tw http://realtime.search.yahoo.co.jp/search?ei=UTF-8&p=%s
+silent bmark -title="yahoo検索" -tags=keyword -keyword=y http://search.yahoo.co.jp/search?ei=UTF-8&p=%s
+
 " 読み込んだ事を出力
 echo ".vimperatorrc sourced"
 
