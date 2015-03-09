@@ -5,3 +5,6 @@
 	path = _vimperator/vimppm
 	url = https://github.com/konfoo/vimppm.git
     ignore = dirty
+[submodule "_antigen"]
+	path = _antigen
+	url = git@github.com:zsh-users/antigen.git
