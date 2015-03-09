@@ -1,20 +1,69 @@
+# lang
+export LANG=ja_JP.UTF-8
+
+# GOPATH
+export GOROOT=$HOME/.go
+
 # PATH
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:$PATH
-export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:/usr/local/share/man:$MANPATH
+#   typeset
+#    -U 重複パスを登録しない
+#    -x exportも同時に行う
+#    -T 環境変数へ紐付け
+#
+#   path=xxxx(N-/)
+#     (N-/): 存在しないディレクトリは登録しない
+#     パス(...): ...という条件にマッチするパスのみ残す
+#        N: NULL_GLOBオプションを設定。
+#           globがマッチしなかったり存在しないパスを無視する
+#        -: シンボリックリンク先のパスを評価
+#        /: ディレクトリのみ残す
+#        .: 通常のファイルのみ残す
+typeset -gxU path cdpath fpath manpath
+
+## PATH
+path=(
+    $GOROOT/bin #golang
+    $HOME/.anyenv/bin #anyenv
+    /usr/local/opt/coreutils/libexec/gnubin #coreutils
+    /Applications/MacVim.app/Contents/MacOS #mvim path on OSX
+    {/usr/local,/usr,}{/sbin,/bin}(N-/) #Linux & OSX Homebrew
+    $path
+)
+
+## CDPATH
+cdpath=(
+    $HOME
+)
+
+## FPATH
+fpath=(
+    /usr/local/share/zsh-completions 
+    $(brew --prefix)/share/zsh/site-functions
+    $fpath
+)
+
+## MANPATH
+manpath=(
+    /usr/local/opt/coreutils/libexec/gnuman #coreutils
+    {/usr,/usr/local}/share/man(N-/) #Linux & OSX Homebrew
+)
+
+## SUDO_PATH
+typeset -xT SUDO_PATH sudo_path 
+typeset -U sudo_path
+sudo_path=(
+    {/usr/local,/usr,}/sbin(N-/)
+)
+
+## anyenv
+eval "$(anyenv init -)"
 
 # zsh path
-cdpath=(.. ~)
-fpath=(/usr/local/share/zsh-completions $fpath)
 bindkey -e
 
-# pbcopyで日本語(UTF-8)がコピーできるようになる
-export __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:14
+export __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:14 #pbcopyで日本語(UTF-8)がコピーできるようになる
+export HOMEBREW_CASK_OPTS="--appdir=/Applications" #brew caskアプリをApplicationディレクトリに入れる
 
 # python interpreter setting
 export PYTHONSTARTUP=$HOME/.pythonrc.py
-
-# macvimをterminalから使えるように
-if [[ "$OSTYPE" =~ "darwin*" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
-    export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
-fi
 

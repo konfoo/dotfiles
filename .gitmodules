@@ -8,3 +8,6 @@
 [submodule "_antigen"]
 	path = _antigen
 	url = git@github.com:zsh-users/antigen.git
+[submodule "_anyenv"]
+	path = _anyenv
+	url = https://github.com/riywo/anyenv
