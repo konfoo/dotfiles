@@ -1,5 +1,6 @@
-ZSHDIR=$HOME/.zsh
+source $HOME/.antigen/antigen.zsh
 
+ZSHDIR=$HOME/.zsh
 if [ -d $ZSHDIR ]; then
   for ZSHFILE in `ls -1 $ZSHDIR/*.zsh`; do
     source $ZSHFILE
