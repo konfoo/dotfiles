@@ -1,8 +1,8 @@
 # lang
 export LANG=ja_JP.UTF-8
 
-# GOPATH
-export GOROOT=$HOME/.go
+# GOENV
+export GOPATH=$HOME/.local
 
 # PATH
 #   typeset
@@ -22,12 +22,12 @@ typeset -gxU path cdpath fpath manpath
 
 ## PATH
 path=(
-    $GOROOT/bin #golang
+    `go env GOROOT`/bin #go
+    $GOPATH/bin #go
     $HOME/.anyenv/bin #anyenv
     /usr/local/opt/coreutils/libexec/gnubin #coreutils
     /Applications/MacVim.app/Contents/MacOS #mvim path on OSX
     {/usr/local,/usr,}{/sbin,/bin}(N-/) #Linux & OSX Homebrew
-    $path
 )
 
 ## CDPATH

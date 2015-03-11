@@ -1,0 +1,3 @@
+gom 'github.com/motemen/ghq'
+gom 'github.com/sona-tar/ghs'
+gom 'github.com/peco/migemogrep'

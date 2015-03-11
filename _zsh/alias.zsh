@@ -6,7 +6,7 @@ fi
 
 # command aliases
 alias zshload="source ~/.zshenv || source ~/.zshrc"
-export EDITOR=vi
+export EDITOR=vim
 alias vi='vim'
 [[ -s `which Vim` ]] && alias vi='Vim'
 [[ -s `which vimpager` ]] && export PAGER=vimpager
@@ -21,9 +21,6 @@ alias -g T='| tail'
 alias -g G='| grep'
 alias -g X='| xargs'
 alias -g W='| wc'
+alias -g P='| peco'
 alias -g L="| $PAGER"
-
-# rvm alias
-alias rvm-prompt=$HOME/.rvm/bin/rvm-prompt
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
